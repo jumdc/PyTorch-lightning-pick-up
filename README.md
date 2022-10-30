@@ -8,9 +8,9 @@ Pick up PyTorch-Lightning
     - [From PyTorch to Lightning](#light)
     - [TensorBoard](#tensorboard)
 
-## Installation <a name="install"><\a>
+## Installation <a name="install"></a>
 
--pip
+- pip
 ```{bash}
 pip install pytorch-lightning
 ```
@@ -19,9 +19,9 @@ pip install pytorch-lightning
 ```{bash}
 conda install pytorch-lightning -c conda-forge
 ```
-## Example for an Auto-Encoder <a name="example"><\a>
+## Example for an Auto-Encoder <a name="example"></a>
 
-### From PyTorch to PyTorch lightning. <a name="ligth"><\a>
+### From PyTorch to PyTorch lightning. <a name="ligth"></a>
 
 From [Lightning in 15 minutes](https://pytorch-lightning.readthedocs.io/en/stable/starter/introduction.html)
 
@@ -175,7 +175,7 @@ trainer.fit(model=autoencoder, train_dataloaders=train_loader) # pass data to th
 Nb : train on gpus
 trainer = pl.Trainer(limit_train_batches=100, max_epochs=1, gpus=4)
 
-### TensorBoard <a name="tensorboard"><\a>
+### TensorBoard <a name="tensorboard"></a>
 ```{bash}
 tensorboard --logdir .
 ```
