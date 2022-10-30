@@ -7,6 +7,8 @@ Pick up PyTorch-Lightning
 2. [Example](#example)
     - [From PyTorch to Lightning](#light)
     - [TensorBoard](#tensorboard)
+3. [Checkpoints](#checkpoints)
+
 
 ## Installation <a name="install"></a>
 
@@ -178,4 +180,60 @@ trainer = pl.Trainer(limit_train_batches=100, max_epochs=1, gpus=4)
 ### TensorBoard <a name="tensorboard"></a>
 ```{bash}
 tensorboard --logdir .
+```
+## Checkpoints <a name="checkpoints"></a>
+
+When a model is training, the performances changes as it continues to see more data. It is a best practise to save the state of 
+mode throughtout the training process. This gives a version of the model : a *checkpoint*. 
+One the training is complete, you can use the checkpoint which corresponds to the model with the best performance. 
+
+Lightning automatically save the checkpoints. 
+
+```{python}
+# saves checkpoints to 'some/path/' at every epoch end
+trainer = Trainer(default_root_dir="some/path/")
+```
+
+### Lightning from a checkpoint
+
+```{python}
+model = MyLightningModule.load_from_checkpoint("/path/to/checkpoint.ckpt")
+
+# disable randomness, dropout, etc...
+model.eval()
+
+# predict with the model
+y_hat = model(x)
+```
+### Save the hyperparameters
+```{python}
+class MyLightningModule(LightningModule):
+    def __init__(self, learning_rate, another_parameter, *args, **kwargs):
+        super().__init__()
+        self.save_hyperparameters()
+```
+
+The hyperparameters are saved to the ```hyper_parameters``` key in the checkpoint.
+```{python}
+checkpoint = torch.load(checkpoint, map_location=lambda storage, loc: storage)
+print(checkpoint["hyper_parameters"])
+```
+
+### Disable checkpointing
+```{python}
+trainer = Trainer(enable_checkpointing=False)
+```
+
+### Resume training state from ckpt
+```{python}
+# automatically restores model, epoch, step, LR schedulers, apex, etc...
+trainer.fit(model, ckpt_path="some/path/to/my_checkpoint.ckpt")
+```
+
+### Load ckpt
+```{python}
+checkpoint = torch.load("path")
+print(checkpoint.keys())
+encoder_weights = checkpoint["encoder"]
+decoder_weights = checkpoint["decoder"]
 ```

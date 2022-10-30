@@ -40,6 +40,7 @@ class LitAutoEncoder(pl.LightningModule):
         super().__init__()
         self.encoder = encoder
         self.decoder = decoder
+        self.save_hyperparameters() # save all the hyperparameters pass to init. 
 
     def training_step(self, batch, batch_idx):
         # training_step defines the train loop.
@@ -94,3 +95,4 @@ autoencoder = LitAutoEncoder(Encoder(), Decoder())
 trainer = pl.Trainer(limit_train_batches=100, max_epochs=1)
 trainer.fit(autoencoder, train_loader, valid_loader)
 trainer.test(autoencoder, dataloaders=DataLoader(test_set))
+
