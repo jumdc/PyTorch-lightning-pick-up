@@ -73,10 +73,10 @@ optimizer = torch.optim.Adam(params, lr=1e-3)
 
 __Lightning__ : 
 ```{python}
-    def configure_optimizers(self):
-        optimizer = optim.Adam(self.parameters(), lr=1e-3) 
-        # self.parameters will contain parameters from encoder & decoder
-        return optimizer 
+def configure_optimizers(self):
+    optimizer = optim.Adam(self.parameters(), lr=1e-3) 
+    # self.parameters will contain parameters from encoder & decoder
+    return optimizer 
 ```
 
 - Training goes into ```training_step``` :
@@ -102,7 +102,7 @@ for epoch in range(num_epochs):
 __Lightning__ : 
 ```{python}
   def training_step(self, batch, batch_idx):
-  # training_step defines the train loop.
+    # training_step defines the train loop.
     # it is independent of forward
     x, y = batch
     x = x.view(x.size(0), -1)
@@ -135,7 +135,7 @@ with torch.no_grad():
 
 __Lightning__ :
 ```{python}
-    def validation_step(self, val_batch, batch_idx):    
+def validation_step(self, val_batch, batch_idx):    
     x, y = val_batch
     x = x.cuda(0)
     x = x.view(x.size(0), -1)
@@ -160,8 +160,8 @@ loss.backward()
 
 __Lightning__ : 
 ```{python}
-    def backward(self, loss, optimizer, optimizer_idx): 
-        loss.backward(retain_graph=True)
+def backward(self, loss, optimizer, optimizer_idx): 
+    loss.backward(retain_graph=True)
 ```
 
 - Init 
